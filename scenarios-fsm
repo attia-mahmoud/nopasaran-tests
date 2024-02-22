@@ -1,0 +1,24 @@
+{
+id: "SCENARIOS-FSM",
+  initial: "First State",
+  states: {
+    "First State": {
+      on: {
+        STARTED: {
+          target: "Second State",
+        },
+      },
+    },
+    "Second State": {
+      on: {
+        DONE: {
+          target: "Last State",
+        },
+      },
+      entry: {
+        type: "done",
+      },
+    },
+    "Last State": {},
+  },
+}
