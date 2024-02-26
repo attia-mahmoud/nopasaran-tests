@@ -23,8 +23,7 @@
             "target": "PRINTING_RESULT",
             "actions": {
               "type": "set (value) (value)"
-            },
-            "cond": "equal (value two)"
+            }
           }
         ]
       },
