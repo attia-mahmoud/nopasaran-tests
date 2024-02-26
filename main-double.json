@@ -15,14 +15,14 @@
           {
             "target": "CALLING_NESTED_MACHINE",
             "actions": {
-              "type": "assign (value) (result)"
+              "type": "assign (value) (value)"
             },
             "cond": "equal (value one)"
           },
           {
             "target": "PRINTING_RESULT",
             "actions": {
-              "type": "assign (value) (value)"
+              "type": "assign (value) (result)"
             }
           }
         ]
