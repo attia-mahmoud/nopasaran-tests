@@ -28,9 +28,14 @@
         "EVENT_FROM_NESTED_FSM": {
           "target": "End",
           "cond": "equal (input-arg1 output-arg2)",
-          "actions": {
-            "type": "assign (output-arg1) (output-arg1)"
-          }
+          "actions": [
+            {
+              "type": "assign (output-arg1) (output-arg1)"
+            },
+            {
+              "type": "print (output-arg1)"
+            }
+          ]
         }
       }
     },
