@@ -29,7 +29,7 @@
       },
       "entry": [
         {
-          "type": "set_random_int (1 2) (value)"
+          "type": "set (2) (value)"
         },
         {
           "type": "set (1) (one)"
