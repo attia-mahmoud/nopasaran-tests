@@ -1,0 +1,39 @@
+{
+  "id": "MAIN-FSM",
+  "initial": "Init",
+  "states": {
+    "Init": {
+      "on": {
+        "STARTED": {
+          "target": "Intermediate State"
+        }
+      }
+    },
+    "Intermediate State": {
+      "entry": [
+        {
+          "type": "set (ping) (input-arg1)"
+        },
+        {
+          "type": "set (pong) (input-arg2)"
+        },
+        {
+          "type": "call (NESTED-FSM input-arg1 input-arg2) (event output-arg1 output-arg2)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "EVENT_FROM_NESTED_FSM": {
+          "target": "End",
+          "cond": "equal (input-arg1 output-arg2)",
+          "actions": {
+            "type": "assign (output-arg1) (output-arg1)"
+          }
+        }
+      }
+    },
+    "End": {}
+  }
+}
