@@ -15,10 +15,10 @@
           "target": "Variables Reception",
           "actions": [
             {
-              "type": "assign (ip-old-state) (ip-new-state)"
+              "type": "set (ip-old-state) (ip-new-state)"
             },
             {
-              "type": "assign (port-old-state) (port-new-state)"
+              "type": "set (port-old-state) (port-new-state)"
             }
           ]
         }
