@@ -1,4 +1,4 @@
 {
-  "ip-server1": "1.2.3.4",
-  "port-server2": "12345",
+  "ip-server": "1.2.3.4",
+  "port-server": "12345",
 }
