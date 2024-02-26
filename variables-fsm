@@ -19,7 +19,7 @@
             },
             {
               "type": "assign (port-old-state) (port-new-state)"
-            },
+            }
           ]
         }
       },
