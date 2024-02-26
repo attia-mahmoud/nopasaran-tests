@@ -1,26 +1,26 @@
 {
-  id: "DOUBLE",
-  initial: "INITIALIZING_STATE",
-  states: {
-    INITIALIZING_STATE: {
-      on: {
-        STARTED: {
-          target: "RETURNING_RESULT",
-        },
-      },
+  "id": "DOUBLE",
+  "initial": "INITIALIZING_STATE",
+  "states": {
+    "INITIALIZING_STATE": {
+      "on": {
+        "STARTED": {
+          "target": "RETURNING_RESULT"
+        }
+      }
     },
-    RETURNING_RESULT: {
-      entry: [
+    "RETURNING_RESULT": {
+      "entry": [
         {
-          type: "get_parameters (value)",
+          "type": "get_parameters (value)"
         },
         {
-          type: "add (value value) (double)",
+          "type": "add (value value) (double)"
         },
         {
-          type: "return (double)",
-        },
-      ],
-    },
-  },
+          "type": "return (double)"
+        }
+      ]
+    }
+  }
 }
