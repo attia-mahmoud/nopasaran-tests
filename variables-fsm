@@ -20,9 +20,6 @@
             {
               "type": "assign (port-old-state) (port-new-state)"
             },
-            {
-              "type": "print (port-new-state)"
-            }
           ]
         }
       },
@@ -32,6 +29,9 @@
         },
         {
           "type": "get_from_file (variables port-server) (port-old-state)"
+        },
+        {
+          "type": "print (port-old-state)"
         },
         {
           "type": "done"
