@@ -1,0 +1,70 @@
+{
+  "id": "MAIN",
+  "initial": "INITIALIZING_STATE",
+  "states": {
+    "INITIALIZING_STATE": {
+      "on": {
+        "STARTED": {
+          "target": "CREATING_VALUE"
+        }
+      }
+    },
+    "CREATING_VALUE": {
+      "on": {
+        "DONE": [
+          {
+            "target": "CALLING_NESTED_MACHINE",
+            "actions": {
+              "type": "set (value) (result)"
+            },
+            "cond": "equal (value one)"
+          },
+          {
+            "target": "PRINTING_RESULT",
+            "actions": {
+              "type": "set (value) (value)"
+            },
+            "cond": "equal (value two)"
+          }
+        ]
+      },
+      "entry": {
+        "type": "done"
+      },
+      "exit": [
+        {
+          "type": "set_random_int (1 2) (value)"
+        },
+        {
+          "type": "set (1) (one)"
+        },
+        {
+          "type": "set (2) (two)"
+        }
+      ]
+    },
+    "CALLING_NESTED_MACHINE": {
+      "on": {
+        "DONE": {
+          "target": "PRINTING_RESULT",
+          "actions": {
+            "type": "set (double) (result)"
+          }
+        }
+      },
+      "entry": [
+        {
+          "type": "call (DOUBLE value) (double)"
+        },
+        {
+          "type": "done"
+        }
+      ]
+    },
+    "PRINTING_RESULT": {
+      "entry": {
+        "type": "return (result)"
+      }
+    }
+  }
+}
