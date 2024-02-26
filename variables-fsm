@@ -1,5 +1,5 @@
 {
-"id": "VARIABLES-FSM",
+  "id": "VARIABLES-FSM",
   "initial": "Init",
   "states": {
     "Init": {
@@ -43,16 +43,16 @@
       },
       "entry": [
         {
-          "type": "print (ip-new-state)",
+          "type": "print (ip-new-state)"
         },
         {
-          "type": "print (ip-old-state)",
+          "type": "print (ip-old-state)"
         },
         {
           "type": "done"
-        },
-      ],
-    }
+        }
+      ]
+    },
     "END": {}
   }
 }
