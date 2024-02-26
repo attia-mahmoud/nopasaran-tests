@@ -46,12 +46,6 @@
       },
       "entry": [
         {
-          "type": "print (ip-new-state)"
-        },
-        {
-          "type": "print (ip-old-state)"
-        },
-        {
           "type": "done"
         }
       ]
