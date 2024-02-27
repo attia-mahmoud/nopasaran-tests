@@ -82,9 +82,6 @@
     "START_SNIFFER": {
       "entry": [
         {
-          "type": "packet_filter (\"icmp\")"
-        },
-        {
           "type": "listen (queue)"
         },
         {
