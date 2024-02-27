@@ -54,7 +54,7 @@
       },
       "entry": [
         {
-          "type": "create_udp_packet (pkt)"
+          "type": "create_UDP_packet (pkt)"
         },
         {
           "type": "done"
