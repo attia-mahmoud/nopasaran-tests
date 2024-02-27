@@ -154,10 +154,13 @@
     "HANDLE_REPLY": {
       "entry": [
         {
-          "type": "get_IP_dst (queue) (IP)"
+          "type": "get_first_element (queue) (reply)"
         },
         {
-          "type": "get_UDP_dport (queue) (port)"
+          "type": "get_IP_dst (reply) (IP)"
+        },
+        {
+          "type": "get_UDP_dport (reply) (port)"
         },
         {
           "type": "done"
