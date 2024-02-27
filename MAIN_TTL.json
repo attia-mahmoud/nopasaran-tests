@@ -85,6 +85,9 @@
     "START_SNIFFER": {
       "entry": [
         {
+          "type": "packet_filter ('tcp')"
+        },
+        {
           "type": "listen (queue)"
         },
         {
@@ -160,7 +163,7 @@
           "type": "get_IP_dst (reply) (IP)"
         },
         {
-          "type": "get_UDP_dport (reply) (port)"
+          "type": "get_TCP_dport (reply) (port)"
         },
         {
           "type": "done"
