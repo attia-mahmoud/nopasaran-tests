@@ -12,7 +12,7 @@
     "SET_VARIABLES": {
       "on": {
         "DONE": {
-          "target": "CREATE_UDP_PACKET",
+          "target": "CREATE_PACKET",
           "actions": [
             {
               "type": "assign (ttl) (ttl)"
