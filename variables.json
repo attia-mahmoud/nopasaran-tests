@@ -1,6 +1,6 @@
 {
   "ttl": 1,
   "ip_dest": "192.168.122.144",
-  "fitler": "tcp"
+  "filter": "tcp"
 }
 
