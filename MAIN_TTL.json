@@ -85,7 +85,7 @@
     "START_SNIFFER": {
       "entry": [
         {
-          "type": "packet_filter ('tcp')"
+          "type": "packet_filter (tcp)"
         },
         {
           "type": "listen (queue)"
