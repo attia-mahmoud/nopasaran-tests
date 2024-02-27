@@ -10,6 +10,17 @@
       }
     },
     "SET_VARIABLES": {
+      "entry": [
+        {
+          "type": "get_from_file (variables ttl) (ttl)"
+        },
+        {
+          "type": "get_from_file (variables ip_dest) (ip_dest)"
+        },
+        {
+          "type": "done"
+        }
+      ],
       "on": {
         "DONE": {
           "target": "CREATE_PACKET",
@@ -22,20 +33,17 @@
             }
           ]
         }
-      },
+      }
+    },
+    "CREATE_PACKET": {
       "entry": [
         {
-          "type": "get_from_file (variables ttl) (ttl)"
-        },
-        {
-          "type": "get_from_file (variables ip_dest) (ip_dest)"
+          "type": "create_TCP_packet (pkt)"
         },
         {
           "type": "done"
         }
-      ]
-    },
-    "CREATE_PACKET": {
+      ],
       "on": {
         "DONE": {
           "target": "MODIFY_PKT",
@@ -51,40 +59,86 @@
             }
           ]
         }
-      },
+      }
+    },
+    "MODIFY_PKT": {
       "entry": [
         {
-          "type": "create_TCP_packet (pkt)"
+          "type": "set_IP_ttl (pkt ttl) (pkt)"
+        },
+        {
+          "type": "set_IP_dst (pkt ip_dest) (pkt)"
         },
         {
           "type": "done"
         }
-      ]
-    },
-    "MODIFY_PKT": {
+      ],
       "on": {
         "DONE": {
           "target": "START_SNIFFER"
         }
-      },
-      "entry": [
-        {
-          "type": "set_IP_ttl (pkt ttl)"
-        },
-        {
-          "type": "done"
-        }
-      ]
+      }
     },
     "START_SNIFFER": {
       "entry": [
         {
-          "type": "start_sniffer (filter conditions)"
+          "type": "packet_filter (\"icmp\")"
+        },
+        {
+          "type": "listen (queue)"
         },
         {
           "type": "done"
         }
-      ]
+      ],
+      "on": {
+        "DONE": {
+          "target": "WAIT_FOR_PACKET",
+          "actions": [
+            {
+              "type": "assign (queue) (queue)"
+            },
+            {
+              "type": "assign (4) (timeout)"
+            }
+          ]
+        }
+      }
+    },
+    "WAIT_FOR_PACKET": {
+      "entry": {
+        "type": "wait_packet_signal (queue) (timeout)"
+      },
+      "on": {
+        "TIMEOUT": {
+          "target": "END"
+        },
+        "PACKET_AVAILABLE": {
+          "target": "HANDLE_REPLY",
+          "actions": {
+            "type": "assign (queue) (queue)"
+          }
+        }
+      }
+    },
+    "END": {},
+    "HANDLE_REPLY": {
+      "entry": [
+        {
+          "type": "get_IP_dst (queue) (IP)"
+        },
+        {
+          "type": "get_UDP_dport (queue) (port)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END"
+        }
+      }
     }
   }
 }
