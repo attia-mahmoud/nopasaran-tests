@@ -107,7 +107,7 @@
     },
     "WAIT_FOR_PACKET": {
       "entry": {
-        "type": "wait_packet_signal (queue) (timeout)"
+        "type": "wait_packet_signal (queue timeout)"
       },
       "on": {
         "TIMEOUT": {
