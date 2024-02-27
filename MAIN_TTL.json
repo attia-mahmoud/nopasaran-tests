@@ -174,10 +174,10 @@
           "type": "get_first_element (queue) (reply)"
         },
         {
-          "type": "get_IP_dst (reply) (IP)"
+          "type": "get_IP_dst (reply) (ip_dst)"
         },
         {
-          "type": "get_TCP_dport (reply) (port)"
+          "type": "get_IP_src (reply) (ip_src)"
         },
         {
           "type": "done"
