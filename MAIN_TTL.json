@@ -75,7 +75,10 @@
       ],
       "on": {
         "DONE": {
-          "target": "START_SNIFFER"
+          "target": "START_SNIFFER",
+          "actions": {
+            "type": "assign (pkt) (pkt)"
+          }
         }
       }
     },
@@ -93,6 +96,32 @@
       ],
       "on": {
         "DONE": {
+          "target": "SEND_PACKET",
+          "actions": [
+            {
+              "type": "assign (queue) (queue)"
+            },
+            {
+              "type": "assign (timeout) (timeout)"
+            },
+            {
+              "type": "assign (pkt) (pkt)"
+            }
+          ]
+        }
+      }
+    },
+    "SEND_PACKET": {
+      "entry": [
+        {
+          "type": "send (pkt)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "PACKET_SENT": {
           "target": "WAIT_FOR_PACKET",
           "actions": [
             {
