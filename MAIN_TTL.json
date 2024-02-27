@@ -90,7 +90,7 @@
               "type": "assign (pkt) (pkt)"
             },
             {
-              "type": "assign (filer) (filter)"
+              "type": "assign (filter) (filter)"
             }
           ]
         }
