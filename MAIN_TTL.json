@@ -64,7 +64,7 @@
               "type": "assign (ip_dest) (ip_dest)"
             },
             {
-              "type": "assign (filer) (filter)"
+              "type": "assign (filter) (filter)"
             }
           ]
         }
