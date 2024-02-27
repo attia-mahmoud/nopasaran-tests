@@ -35,7 +35,7 @@
         }
       ]
     },
-    "CREATE_UDP_PACKET": {
+    "CREATE_PACKET": {
       "on": {
         "DONE": {
           "target": "MODIFY_PKT",
