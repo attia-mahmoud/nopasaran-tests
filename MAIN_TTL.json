@@ -1,0 +1,90 @@
+{
+  "id": "MAIN_TTL",
+  "initial": "INITIALIZATION STATE",
+  "states": {
+    "INITIALIZATION STATE": {
+      "on": {
+        "STARTED": {
+          "target": "SET_VARIABLES"
+        }
+      }
+    },
+    "SET_VARIABLES": {
+      "on": {
+        "DONE": {
+          "target": "CREATE_UDP_PACKET",
+          "actions": [
+            {
+              "type": "assign (ttl) (ttl)"
+            },
+            {
+              "type": "assign (ip_dest) (ip_dest)"
+            }
+          ]
+        }
+      },
+      "entry": [
+        {
+          "type": "get_from_file (variables ttl) (ttl)"
+        },
+        {
+          "type": "get_from_file (variables ip_dest) (ip_dest)"
+        },
+        {
+          "type": "done"
+        }
+      ]
+    },
+    "CREATE_UDP_PACKET": {
+      "on": {
+        "DONE": {
+          "target": "MODIFY_PKT",
+          "actions": [
+            {
+              "type": "assign (pkt) (pkt)"
+            },
+            {
+              "type": "assign (ttl) (ttl)"
+            },
+            {
+              "type": "assign (ip_dest) (ip_dest)"
+            }
+          ]
+        }
+      },
+      "entry": [
+        {
+          "type": "create_udp_packet (pkt)"
+        },
+        {
+          "type": "done"
+        }
+      ]
+    },
+    "MODIFY_PKT": {
+      "on": {
+        "DONE": {
+          "target": "START_SNIFFER"
+        }
+      },
+      "entry": [
+        {
+          "type": "set_IP_ttl (pkt ttl)"
+        },
+        {
+          "type": "done"
+        }
+      ]
+    },
+    "START_SNIFFER": {
+      "entry": [
+        {
+          "type": "start_sniffer (filter conditions)"
+        },
+        {
+          "type": "done"
+        }
+      ]
+    }
+  }
+}
