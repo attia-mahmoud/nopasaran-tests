@@ -85,6 +85,9 @@
           "type": "listen (queue)"
         },
         {
+          "type": "set_integer (4) (timeout)"
+        },
+        {
           "type": "done"
         }
       ],
@@ -96,7 +99,7 @@
               "type": "assign (queue) (queue)"
             },
             {
-              "type": "assign (4) (timeout)"
+              "type": "assign (timeout) (timeout)"
             }
           ]
         }
