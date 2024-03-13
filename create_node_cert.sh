@@ -16,7 +16,7 @@ ENDPOINT_NAME="endpoint${NUMBER}"
 openssl genrsa -out "${ENDPOINT_NAME}.key" 2048
 
 # Create a certificate signing request (CSR), skipping optional fields
-openssl req -new -sha256 -key "${ENDPOINT_NAME}.key" -out "${ENDPOINT_NAME}.csr" -subj "/C=SA/ST=Jeddah/L=Thuwal/O=NoPASARAN/CN=www.nopasaran.com"
+openssl req -new -sha256 -key "${ENDPOINT_NAME}.key" -out "${ENDPOINT_NAME}.csr" -subj "/C=SA/ST=Jeddah/L=Thuwal/O=NoPASARAN"
 
 # Sign the CSR with the root CA to get the certificate
 openssl x509 -req -sha256 -in "${ENDPOINT_NAME}.csr" -CA root_ca.crt -CAkey root_ca.key -CAcreateserial -out "${ENDPOINT_NAME}.crt" -days 365
