@@ -5,7 +5,25 @@
     "INITIALIZATION STATE": {
       "on": {
         "STARTED": {
+          "target": "SETUP_CONTROL_CHANNEL"
+        }
+      }
+    },
+    "SETUP_CONTROL_CHANNEL": {
+      "entry": [
+        {
+          "type": "call (CONTROL-CHANNEL-SETUP client conf_endpoint1) (event controller_protocol)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "CONTROL_CHANNEL_READY": {
           "target": "SET_VARIABLES"
+        },
+        "TIMEOUT": {
+          "target": "END"
         }
       }
     },
@@ -41,6 +59,7 @@
         }
       }
     },
+    "END": {},
     "CREATE_PACKET": {
       "entry": [
         {
@@ -167,7 +186,6 @@
         }
       }
     },
-    "END": {},
     "HANDLE_REPLY": {
       "entry": [
         {
