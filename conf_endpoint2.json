@@ -1,0 +1,6 @@
+{
+  "ROOT_CERTIFICATE": "root_ca.crt",
+  "PRIVATE_CERTIFICATE": "endpoint2.pem",
+  "DESTINATION_IP": "192.168.122.217",
+  "SERVER_PORT": 443"
+}
