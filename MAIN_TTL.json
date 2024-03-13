@@ -16,6 +16,9 @@
         },
         {
           "type": "get_from_file (variables controller_conf_filename) (controller_conf_filename)"
+        },
+        {
+          "type": "done"
         }
       ],
       "on": {
@@ -60,6 +63,9 @@
         },
         {
           "type": "get_from_file (variables filter) (filter)"
+        },
+        {
+          "type": "done"
         }
       ],
       "on": {
