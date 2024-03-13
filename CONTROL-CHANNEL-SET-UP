@@ -1,0 +1,159 @@
+{
+    "id": "CONTROL-CHANNEL-SET-UP",
+    "initial": "INITIALIZING",
+    "states": {
+        "INITIALIZING": {
+            "on": {
+                "STARTED": {
+                    "target": "LOADING THE VARIABLES"
+                }
+            }
+        },
+        "LOADING THE VARIABLES": {
+            "entry": [
+                {
+                    "params": {},
+                    "type": "get_parameters (role controller_conf_filename)"
+                },
+                {
+                    "params": {},
+                    "type": "set (client) (client)"
+                },
+                {
+                    "type": "set (server) (server)"
+                },
+                {
+                    "type": "done"
+                }
+            ],
+            "on": {
+                "DONE": [
+                    {
+                        "target": "STARTING CLIENT CONTROL CHANNEL",
+                        "cond": "equal (role client)",
+                        "actions": {
+                            "type": "assign (controller_conf_filename) (controller_conf_filename)"
+                        }
+                    },
+                    {
+                        "target": "STARTING SERVER CONTROL CHANNEL",
+                        "cond": "equal (role server)",
+                        "actions": {
+                            "type": "assign (controller_conf_filename) (controller_conf_filename)"
+                        }
+                    }
+                ]
+            }
+        },
+        "STARTING CLIENT CONTROL CHANNEL": {
+            "entry": [
+                {
+                    "params": {},
+                    "type": "load_control_channel_configuration (controller_conf_filename) (controller_conf)"
+                },
+                {
+                    "params": {},
+                    "type": "configure_client_control_channel (controller_conf) (controller controller_protocol)"
+                },
+                {
+                    "params": {},
+                    "type": "start_control_channel (controller)"
+                },
+                {
+                    "params": {},
+                    "type": "done"
+                }
+            ],
+            "on": {
+                "DONE": {
+                    "target": "SYNCHRONIZATION OF THE TWO PARTIES",
+                    "actions": {
+                        "params": {},
+                        "type": "assign (controller_protocol) (controller_protocol)"
+                    }
+                }
+            }
+        },
+        "STARTING SERVER CONTROL CHANNEL": {
+            "entry": [
+                {
+                    "params": {},
+                    "type": "load_control_channel_configuration (controller_conf_filename) (controller_conf)"
+                },
+                {
+                    "params": {},
+                    "type": "configure_server_control_channel (controller_conf) (controller controller_protocol)"
+                },
+                {
+                    "params": {},
+                    "type": "start_control_channel (controller)"
+                },
+                {
+                    "params": {},
+                    "type": "done"
+                }
+            ],
+            "on": {
+                "DONE": {
+                    "target": "SYNCHRONIZATION OF THE TWO PARTIES",
+                    "actions": {
+                        "params": {},
+                        "type": "assign (controller_protocol) (controller_protocol)"
+                    }
+                }
+            }
+        },
+        "SYNCHRONIZATION OF THE TWO PARTIES": {
+            "entry": [
+                {
+                    "params": {},
+                    "type": "set (10) (timeout)"
+                },
+                {
+                    "params": {},
+                    "type": "wait_ready_signal (controller_protocol timeout)"
+                }
+            ],
+            "on": {
+                "TIMEOUT": {
+                    "target": "TIMEOUT ENDING",
+                    "actions": {
+                        "params": {},
+                        "type": "assign (controller_protocol) (controller_protocol)"
+                    }
+                },
+                "READY": {
+                    "target": "CONTROL CHANNEL IS READY",
+                    "actions": {
+                        "params": {},
+                        "type": "assign (controller_protocol) (controller_protocol)"
+                    }
+                }
+            }
+        },
+        "TIMEOUT ENDING": {
+            "entry": [
+                {
+                    "params": {},
+                    "type": "set (TIMEOUT) (event)"
+                },
+                {
+                    "params": {},
+                    "type": "return_values (event controller_protocol)"
+                }
+            ]
+        },
+        "CONTROL CHANNEL IS READY": {
+            "entry": [
+                {
+                    "params": {},
+                    "type": "set (CONTROL_CHANNEL_READY) (event)"
+                },
+                {
+                    "params": {},
+                    "type": "return_values (event controller_protocol)"
+                }
+            ]
+        }
+    }
+}
