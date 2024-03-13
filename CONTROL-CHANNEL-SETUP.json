@@ -1,5 +1,5 @@
 {
-    "id": "CONTROL-CHANNEL-SET-UP",
+    "id": "CONTROL-CHANNEL-SETUP",
     "initial": "INITIALIZING",
     "states": {
         "INITIALIZING": {
