@@ -3,6 +3,6 @@
   "ip_dest": "192.168.122.144",
   "filter": "tcp",
   "role": "client",
-  "config": "conf_endpoint1"
+  "controller_conf_filename": "conf_endpoint1"
 }
 
