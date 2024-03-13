@@ -5,14 +5,37 @@
     "INITIALIZATION STATE": {
       "on": {
         "STARTED": {
-          "target": "SETUP_CONTROL_CHANNEL"
+          "target": "SET_CONTROL_VARIABLES"
+        }
+      }
+    },
+    "SET_CONTROL_VARIABLES": {
+      "entry": [
+        {
+          "type": "get_from_file (variables role) (role)"
+        },
+        {
+          "type": "get_from_file (variables controller_conf_filename) (controller_conf_filename)"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SETUP_CONTROL_CHANNEL",
+          "actions": [
+            {
+              "type": "assign (role) (role)"
+            },
+            {
+              "type": "assign (controller_conf_filename) (controller_conf_filename)"
+            }
+          ]
         }
       }
     },
     "SETUP_CONTROL_CHANNEL": {
       "entry": [
         {
-          "type": "call (CONTROL-CHANNEL-SETUP client conf_endpoint1) (event controller_protocol)"
+          "type": "call (CONTROL-CHANNEL-SETUP role controller_conf_filename) (event controller_protocol)"
         },
         {
           "type": "trigger (event)"
@@ -20,14 +43,14 @@
       ],
       "on": {
         "CONTROL_CHANNEL_READY": {
-          "target": "SET_VARIABLES"
+          "target": "SET_PACKET_VARIABLES"
         },
         "TIMEOUT": {
           "target": "END"
         }
       }
     },
-    "SET_VARIABLES": {
+    "SET_PACKET_VARIABLES": {
       "entry": [
         {
           "type": "get_from_file (variables ttl) (ttl)"
@@ -37,9 +60,6 @@
         },
         {
           "type": "get_from_file (variables filter) (filter)"
-        },
-        {
-          "type": "done"
         }
       ],
       "on": {
