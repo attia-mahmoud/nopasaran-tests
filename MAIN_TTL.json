@@ -41,6 +41,9 @@
           "type": "call (CONTROL-CHANNEL-SETUP role controller_conf_filename) (event controller_protocol)"
         },
         {
+          "type": "set (client) (client)"
+        },
+        {
           "type": "trigger (event)"
         }
       ],
