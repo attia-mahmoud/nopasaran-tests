@@ -44,14 +44,26 @@
           "type": "set (client) (client)"
         },
         {
+          "type": "set (server) (server)"
+        },
+        {
           "type": "trigger (event)"
         }
       ],
       "on": {
-        "CONTROL_CHANNEL_READY": {
-          "target": "SET_PACKET_VARIABLES",
-          "cond": "equal (role client)"
-        },
+        "CONTROL_CHANNEL_READY": [
+          {
+            "target": "SET_PACKET_VARIABLES",
+            "cond": "equal (role client)"
+          },
+          {
+            "target": "WAIT_FOR_SYNC",
+            "cond": "equal (role server)",
+            "actions": {
+              "type": "assign (controller_protocol) (controller_protocol)"
+            }
+          }
+        ],
         "TIMEOUT": {
           "target": "END"
         }
@@ -89,6 +101,27 @@
         }
       }
     },
+    "WAIT_FOR_SYNC": {
+      "entry": [
+        {
+          "type": "set (4) (timeout)"
+        },
+        {
+          "type": "wait_sync_signal (controller_protocol timeout)"
+        }
+      ],
+      "on": {
+        "SYNC_AVAILABLE": {
+          "target": "HANDLE_SYNC",
+          "actions": {
+            "type": "assign (controller_protocol) (controller_protocol)"
+          }
+        },
+        "TIMEOUT": {
+          "target": "END"
+        }
+      }
+    },
     "END": {},
     "IDENTIFY_EXT_ADDRESS": {
       "entry": [
@@ -112,6 +145,21 @@
           ]
         },
         "TIMEOUT": {
+          "target": "END"
+        }
+      }
+    },
+    "HANDLE_SYNC": {
+      "entry": [
+        {
+          "type": "get_first_element (controller_protocol) (reply)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
           "target": "END"
         }
       }
