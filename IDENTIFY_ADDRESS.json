@@ -4,7 +4,7 @@
   "states": {
     "INITIALIZATION STATE": {
       "on": {
-        "STARTING": {
+        "STARTED": {
           "target": "GET_PARAMS"
         }
       }
