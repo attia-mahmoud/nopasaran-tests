@@ -12,6 +12,9 @@ DESTINATION_IP=$2
 SERVER_PORT=$3
 ENDPOINT_NAME="endpoint${NUMBER}"
 
+# Add root_ca.crt to root store
+cp root_ca.crt /usr/local/share/ca-certificates
+
 # Generate a new RSA private key of 2048 bits
 openssl genrsa -out "${ENDPOINT_NAME}.key" 2048
 
