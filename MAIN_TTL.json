@@ -117,10 +117,18 @@
       ],
       "on": {
         "SYNC_AVAILABLE": {
-          "target": "HANDLE_SYNC",
-          "actions": {
-            "type": "assign (ctrl) (ctrl)"
-          }
+          "target": "SEND_CONFIRMATION",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (ip_dst_received) (ip_dst_received)"
+            },
+            {
+              "type": "assign (ip_src_received) (ip_src_received)"
+            }
+          ]
         },
         "TIMEOUT": {
           "target": "END"
@@ -157,17 +165,17 @@
         }
       }
     },
-    "HANDLE_SYNC": {
+    "SEND_CONFIRMATION": {
       "entry": [
         {
-          "type": "get_first_element (ctrl) (reply)"
+          "type": "set (confirm) (confirm)"
         },
         {
-          "type": "done"
+          "type": "sync (ctrl confirm)"
         }
       ],
       "on": {
-        "DONE": {
+        "SYNC_SENT": {
           "target": "END"
         }
       }
@@ -178,6 +186,24 @@
       },
       "on": {
         "SYNC_SENT": {
+          "target": "WAIT_FOR_CONFIRMATION",
+          "actions": {
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "WAIT_FOR_CONFIRMATION": {
+      "entry": [
+        {
+          "type": "set (4) (timeout)"
+        },
+        {
+          "type": "wait_sync_signal (ctrl timeout) (confirm)"
+        }
+      ],
+      "on": {
+        "SYNC_AVAILABLE": {
           "target": "END"
         }
       }
