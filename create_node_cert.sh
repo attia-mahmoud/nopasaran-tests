@@ -19,7 +19,7 @@ cp root_ca.crt /usr/local/share/ca-certificates
 openssl genrsa -out "${ENDPOINT_NAME}.key" 2048
 
 # Create a certificate signing request (CSR), skipping optional fields
-openssl req -new -sha256 -key "${ENDPOINT_NAME}.key" -out "${ENDPOINT_NAME}.csr" -subj "/C=SA/ST=Jeddah/L=Thuwal/O=NoPASARAN"
+openssl req -new -sha256 -key "${ENDPOINT_NAME}.key" -out "${ENDPOINT_NAME}.csr" -subj "/"
 
 # Sign the CSR with the root CA to get the certificate
 openssl x509 -req -sha256 -in "${ENDPOINT_NAME}.csr" -CA root_ca.crt -CAkey root_ca.key -CAcreateserial -out "${ENDPOINT_NAME}.crt" -days 365
