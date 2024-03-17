@@ -1,0 +1,117 @@
+{
+  "id": "SNIFF_PACKET",
+  "initial": "INIT",
+  "states": {
+    "INIT": {
+      "on": {
+        "STARTED": {
+          "target": "GET_VARS"
+        }
+      }
+    },
+    "GET_VARS": {
+      "entry": [
+        {
+          "type": "get_from_file (variables filter) (filter)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "START_SNIFFER",
+          "actions": {
+            "type": "assign (filter) (filter)"
+          }
+        }
+      }
+    },
+    "START_SNIFFER": {
+      "entry": [
+        {
+          "type": "packet_filter (filter)"
+        },
+        {
+          "type": "listen (queue)"
+        },
+        {
+          "type": "set_integer (4) (timeout)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "WAIT_FOR_PACKET",
+          "actions": [
+            {
+              "type": "assign (queue) (queue)"
+            },
+            {
+              "type": "assign (timeout) (timeout)"
+            }
+          ]
+        }
+      }
+    },
+    "WAIT_FOR_PACKET": {
+      "entry": {
+        "type": "wait_packet_signal (queue timeout)"
+      },
+      "on": {
+        "TIMEOUT": {
+          "target": "TIMEOUT_ENDED"
+        },
+        "PACKET_AVAILABLE": {
+          "target": "HANDLE_REPLY",
+          "actions": {
+            "type": "assign (queue) (queue)"
+          }
+        }
+      }
+    },
+    "TIMEOUT_ENDED": {
+      "entry": [
+        {
+          "type": "set (TIMEOUT) (event)"
+        },
+        {
+          "type": "set (0) (pkt)"
+        },
+        {
+          "type": "return_values (event pkt)"
+        }
+      ]
+    },
+    "HANDLE_REPLY": {
+      "entry": [
+        {
+          "type": "get_first_element (queue) (pkt)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": {
+            "type": "assign (pkt) (pkt)"
+          }
+        }
+      }
+    },
+    "END": {
+      "entry": [
+        {
+          "type": "set (RESPONSE_RECEIVED) (event)"
+        },
+        {
+          "type": "return_values (event pkt)"
+        }
+      ]
+    }
+  }
+}
