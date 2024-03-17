@@ -1,0 +1,70 @@
+{
+  "id": "CREATE_CONTROL_CHANNEL",
+  "initial": "INITIALIZATION STATE",
+  "states": {
+    "INITIALIZATION STATE": {
+      "on": {
+        "STARTED": {
+          "target": "SET_CONTROL_VARIABLES"
+        }
+      }
+    },
+    "SET_CONTROL_VARIABLES": {
+      "entry": [
+        {
+          "type": "get_from_file (variables role) (role)"
+        },
+        {
+          "type": "get_from_file (variables controller_conf_filename) (controller_conf_filename)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SETUP_CONTROL_CHANNEL",
+          "actions": [
+            {
+              "type": "assign (role) (role)"
+            },
+            {
+              "type": "assign (controller_conf_filename) (controller_conf_filename)"
+            }
+          ]
+        }
+      }
+    },
+    "SETUP_CONTROL_CHANNEL": {
+      "entry": [
+        {
+          "type": "call (CONTROL-CHANNEL-SETUP role controller_conf_filename) (event ctrl)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (role) (role)"
+            },
+            {
+              "type": "assign (event) (event)"
+            }
+          ]
+        }
+      }
+    },
+    "END": {
+      "entry": {
+        "type": "return_values (event ctrl role)"
+      }
+    }
+  }
+}
