@@ -1,0 +1,65 @@
+{
+  "id": "GET_SYNC",
+  "initial": "INIT",
+  "states": {
+    "INIT": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMS"
+        }
+      }
+    },
+    "GET_PARAMS": {
+      "entry": [
+        {
+          "type": "get_parameters (ctrl)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "WAIT_FOR_SYNC",
+          "actions": {
+            "type": "assign (ctrl)"
+          }
+        }
+      }
+    },
+    "WAIT_FOR_SYNC": {
+      "entry": [
+        {
+          "type": "set (4) (timeout)"
+        },
+        {
+          "type": "wait_sync_signal (ctrl timeout) (ip_dst)"
+        }
+      ],
+      "on": {
+        "SYNC_AVAILABLE": {
+          "target": "END",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (ip_dst) (ip_dst)"
+            },
+            {
+              "type": "set (MESSAGE_RECEIVED) (event)"
+            }
+          ]
+        },
+        "TIMEOUT": {
+          "target": "END"
+        }
+      }
+    },
+    "END": {
+      "entry": {
+        "type": "return_values (ctrl event ip_dst)"
+      }
+    }
+  }
+}
