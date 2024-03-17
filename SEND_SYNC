@@ -1,0 +1,65 @@
+{
+  "id": "SEND_SYNC",
+  "initial": "INIT",
+  "states": {
+    "INIT": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMS"
+        }
+      }
+    },
+    "GET_PARAMS": {
+      "entry": [
+        {
+          "type": "get_parameters (pkt ctrl)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "HANDLE_REPLY",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (pkt) (pkt)"
+            }
+          ]
+        }
+      }
+    },
+    "HANDLE_REPLY": {
+      "entry": [
+        {
+          "type": "get_IP_dst (pkt) (ip_dst)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SEND_DATA"
+        }
+      }
+    },
+    "SEND_DATA": {
+      "entry": {
+        "type": "sync (ctrl ip_dst)"
+      },
+      "on": {
+        "SYNC_SENT": {
+          "target": "END",
+          "actions": {
+            "type": "set (SYNC_SENT) (event)"
+          }
+        }
+      }
+    },
+    "END": {}
+  }
+}
