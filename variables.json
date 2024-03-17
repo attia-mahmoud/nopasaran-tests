@@ -1,6 +1,6 @@
 {
   "ttl": 1,
-  "ip_dest": "192.168.122.144",
+  "ip_dst": "192.168.122.144",
   "filter": "icmp",
   "role": "client",
   "controller_conf_filename": "conf_endpoint1.json"
