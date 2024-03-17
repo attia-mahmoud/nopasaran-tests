@@ -1,4 +1,4 @@
-## How to run the tests **in the project's current state**
+## How to run the tests IN THE PROJECT'S CURRENT STATE
 
 1. Clone the repo in each worker node and the CA.
 
