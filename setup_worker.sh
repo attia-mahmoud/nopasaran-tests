@@ -6,6 +6,8 @@ if [ "$#" -ne 3 ]; then
     exit 1
 fi
 
+apt-get upgrade && apt-get install tcpdump
+
 # Assign arguments to variables
 NUMBER=$1
 DESTINATION_IP=$2
