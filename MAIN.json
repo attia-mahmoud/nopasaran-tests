@@ -59,7 +59,7 @@
       ],
       "on": {
         "DONE": {
-          "target": "SEND_FALSE_TTL_PKT",
+          "target": "SNIFF_FOR_ERROR_MSG",
           "actions": [
             {
               "type": "assign (ttl) (ttl)"
@@ -104,21 +104,32 @@
       }
     },
     "END": {},
-    "SEND_FALSE_TTL_PKT": {
+    "SNIFF_FOR_ERROR_MSG": {
       "entry": [
         {
-          "type": "call (SEND_PACKET ttl ip_dst) (event)"
+          "type": "get_from_file (variables icmp_filter) (filter)"
         },
         {
-          "type": "trigger (event)"
+          "type": "call (START_SNIFFER filter) (event queue)"
         }
       ],
       "on": {
-        "PACKET_SENT": {
-          "target": "SNIFF_ERROR_MSG",
-          "actions": {
-            "type": "assign (ctrl) (ctrl)"
-          }
+        "SNIFFER_STARTED": {
+          "target": "SEND_FALSE_TTL_PKT",
+          "actions": [
+            {
+              "type": "assign (ttl) (ttl)"
+            },
+            {
+              "type": "assign (ip_dst) (ip_dst)"
+            },
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (queue) (queue)"
+            }
+          ]
         }
       }
     },
@@ -137,32 +148,26 @@
         }
       }
     },
-    "SNIFF_ERROR_MSG": {
+    "SEND_FALSE_TTL_PKT": {
       "entry": [
         {
-          "type": "get_from_file (variables icmp_filter) (filter)"
-        },
-        {
-          "type": "call (SNIFF_PACKET filter) (event pkt)"
+          "type": "call (SEND_PACKET ttl ip_dst) (event)"
         },
         {
           "type": "trigger (event)"
         }
       ],
       "on": {
-        "RESPONSE_RECEIVED": {
-          "target": "SEND_SYNC_MSG",
+        "PACKET_SENT": {
+          "target": "GET_ERROR_MSG",
           "actions": [
             {
-              "type": "assign (pkt) (pkt)"
+              "type": "assign (ctrl) (ctrl)"
             },
             {
-              "type": "assign (ctrl) (ctrl)"
+              "type": "assign (queue) (queue)"
             }
           ]
-        },
-        "TIMEOUT": {
-          "target": "ICMP_ERROR_NOT_RECEIVED"
         }
       }
     },
@@ -181,6 +186,47 @@
       "on": {
         "PACKET_SENT": {
           "target": "WAIT_FOR_UDP_ACK"
+        }
+      }
+    },
+    "GET_ERROR_MSG": {
+      "entry": [
+        {
+          "type": "call (GET_CAUGHT_PACKET queue) (event pkt)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "PACKET_EXTRACTED": {
+          "target": "SEND_SYNC_MSG",
+          "actions": [
+            {
+              "type": "assign (pkt) (pkt)"
+            },
+            {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          ]
+        },
+        "TIMEOUT": {
+          "target": "ICMP_ERROR_NOT_RECEIVED"
+        }
+      }
+    },
+    "WAIT_FOR_UDP_ACK": {
+      "entry": [
+        {
+          "type": "call (WAIT_FOR_ACK_MSG ctrl) (event)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "ACK_RECEIVED": {
+          "target": "END"
         }
       }
     },
@@ -203,21 +249,6 @@
       }
     },
     "ICMP_ERROR_NOT_RECEIVED": {},
-    "WAIT_FOR_UDP_ACK": {
-      "entry": [
-        {
-          "type": "call (WAIT_FOR_ACK_MSG ctrl) (event)"
-        },
-        {
-          "type": "trigger (event)"
-        }
-      ],
-      "on": {
-        "ACK_RECEIVED": {
-          "target": "END"
-        }
-      }
-    },
     "WAIT_FOR_SYNC_ACK": {
       "entry": [
         {
