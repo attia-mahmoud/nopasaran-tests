@@ -51,7 +51,7 @@
     "END": {
       "entry": [
         {
-          "type": "set (SNIFFER_STARTED) (event"
+          "type": "set (SNIFFER_STARTED) (event)"
         },
         {
           "type": "return_values (event queue)"
