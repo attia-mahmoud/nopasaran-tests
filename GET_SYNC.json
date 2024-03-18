@@ -52,21 +52,39 @@
           ]
         },
         "TIMEOUT": {
-          "target": "END",
-          "actions": [
-            {
-              "type": "assign (0) (ip_dst)"
-            },
-            {
-              "type": "assign (TIMEOUT) (event)"
-            }
-          ]
+          "target": "TIMEOUT_ENDED"
         }
       }
     },
     "END": {
       "entry": {
         "type": "return_values (ctrl event ip_dst)"
+      }
+    },
+    "TIMEOUT_ENDED": {
+      "entry": [
+        {
+          "type": "set (false) (ip_dst)"
+        },
+        {
+          "type": "assign (TIMEOUT) (event)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": [
+            {
+              "type": "assign (ip_dst) (ip_dst)"
+            },
+            {
+              "type": "assign (event) (event)"
+            }
+          ]
+        }
       }
     }
   }
