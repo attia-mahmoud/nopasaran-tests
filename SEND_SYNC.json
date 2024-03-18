@@ -12,7 +12,7 @@
     "GET_PARAMS": {
       "entry": [
         {
-          "type": "get_parameters (pkt ctrl)"
+          "type": "get_parameters (ctrl pkt)"
         },
         {
           "type": "done"
