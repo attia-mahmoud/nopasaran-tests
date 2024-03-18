@@ -39,20 +39,12 @@
       "on": {
         "SYNC_AVAILABLE": {
           "target": "MSG_RECEIVED",
-          "actions": [
-            {
-              "type": "assign (ctrl) (ctrl)"
-            },
-            {
-              "type": "assign (ip_dst) (ip_dst)"
-            }
-          ]
+          "actions": {
+            "type": "assign (ip_dst) (ip_dst)"
+          }
         },
         "TIMEOUT": {
-          "target": "TIMEOUT_ENDED",
-          "actions": {
-            "type": "assign (ctrl) (ctrl)"
-          }
+          "target": "TIMEOUT_ENDED"
         }
       }
     },
@@ -74,9 +66,6 @@
             },
             {
               "type": "assign (event) (event)"
-            },
-            {
-              "type": "assign (ctrl) (ctrl)"
             }
           ]
         }
@@ -103,9 +92,6 @@
             },
             {
               "type": "assign (event) (event)"
-            },
-            {
-              "type": "assign (ctrl) (ctrl)"
             }
           ]
         }
@@ -113,7 +99,7 @@
     },
     "END": {
       "entry": {
-        "type": "return_values (ctrl event ip_dst)"
+        "type": "return_values (event ip_dst)"
       }
     }
   }
