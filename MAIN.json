@@ -245,9 +245,14 @@
       "on": {
         "SYNC_SENT": {
           "target": "WAIT_FOR_ACK",
-          "actions": {
-            "type": "assign (ctrl) (ctrl)"
-          }
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (pkt) (pkt)"
+            }
+          ]
         }
       }
     },
@@ -269,7 +274,15 @@
           }
         },
         "TIMEOUT": {
-          "target": "END"
+          "target": "SEND_SYNC_MSG",
+          "actions": [
+            {
+              "type": "assign (pkt) (pkt)"
+            },
+            {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          ]
         }
       }
     },
