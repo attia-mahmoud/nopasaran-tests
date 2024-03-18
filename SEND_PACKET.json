@@ -35,7 +35,7 @@
     "CREATE_PACKET": {
       "entry": [
         {
-          "type": "create_TCP_packet (pkt)"
+          "type": "create_UDP_packet (pkt)"
         },
         {
           "type": "done"
