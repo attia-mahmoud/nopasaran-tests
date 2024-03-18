@@ -67,7 +67,7 @@
           "type": "set (false) (ip_dst)"
         },
         {
-          "type": "assign (TIMEOUT) (event)"
+          "type": "set (TIMEOUT) (event)"
         },
         {
           "type": "done"
