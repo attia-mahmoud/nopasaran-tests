@@ -56,7 +56,10 @@
       ],
       "on": {
         "DONE": {
-          "target": "END"
+          "target": "END",
+          "actions": {
+            "type": "assign (event) (event)"
+          }
         }
       }
     },
@@ -71,7 +74,10 @@
       ],
       "on": {
         "DONE": {
-          "target": "END"
+          "target": "END",
+          "actions": {
+            "type": "assign (event) (event)"
+          }
         }
       }
     },
