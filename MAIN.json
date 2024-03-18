@@ -111,6 +111,9 @@
         },
         {
           "type": "call (START_SNIFFER filter) (event queue)"
+        },
+        {
+          "type": "trigger (event)"
         }
       ],
       "on": {
