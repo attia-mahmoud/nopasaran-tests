@@ -245,7 +245,7 @@
       ],
       "on": {
         "SYNC_SENT": {
-          "target": "WAIT_FOR_SYNC_ACK",
+          "target": "WAIT_FOR_ACK",
           "actions": {
             "type": "assign (ctrl) (ctrl)"
           }
@@ -253,7 +253,7 @@
       }
     },
     "ICMP_ERROR_NOT_RECEIVED": {},
-    "WAIT_FOR_SYNC_ACK": {
+    "WAIT_FOR_ACK": {
       "entry": [
         {
           "type": "call (WAIT_FOR_ACK_MSG ctrl) (event)"
@@ -264,7 +264,10 @@
       ],
       "on": {
         "ACK_RECEIVED": {
-          "target": "SNIFF_UDP_PKT"
+          "target": "SNIFF_UDP_PKT",
+          "actions": {
+            "type": "assign (ctrl) (ctrl)"
+          }
         },
         "TIMEOUT": {
           "target": "END"
