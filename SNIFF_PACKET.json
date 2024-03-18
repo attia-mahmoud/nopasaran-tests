@@ -1,18 +1,18 @@
 {
-  "id": "SEND_PACKET",
+  "id": "SNIFF_PACKET",
   "initial": "INIT",
   "states": {
     "INIT": {
       "on": {
         "STARTED": {
-          "target": "GET_PARAMS"
+          "target": "GET_VARS"
         }
       }
     },
-    "GET_PARAMS": {
+    "GET_VARS": {
       "entry": [
         {
-          "type": "get_parameters (ttl ip_dst)"
+          "type": "get_parameters (filter)"
         },
         {
           "type": "done"
@@ -20,51 +20,75 @@
       ],
       "on": {
         "DONE": {
-          "target": "CREATE_PACKET",
+          "target": "START_SNIFFER",
+          "actions": {
+            "type": "assign (filter) (filter)"
+          }
+        }
+      }
+    },
+    "START_SNIFFER": {
+      "entry": [
+        {
+          "type": "packet_filter (filter)"
+        },
+        {
+          "type": "listen (queue)"
+        },
+        {
+          "type": "set_integer (4) (timeout)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "WAIT_FOR_PACKET",
           "actions": [
             {
-              "type": "assign (ttl) (ttl)"
+              "type": "assign (queue) (queue)"
             },
             {
-              "type": "assign (ip_dst) (ip_dst)"
+              "type": "assign (timeout) (timeout)"
             }
           ]
         }
       }
     },
-    "CREATE_PACKET": {
-      "entry": [
-        {
-          "type": "create_TCP_packet (pkt)"
-        },
-        {
-          "type": "done"
-        }
-      ],
+    "WAIT_FOR_PACKET": {
+      "entry": {
+        "type": "wait_packet_signal (queue timeout)"
+      },
       "on": {
-        "DONE": {
-          "target": "MODIFY_PKT",
-          "actions": [
-            {
-              "type": "assign (pkt) (pkt)"
-            },
-            {
-              "type": "assign (ttl) (ttl)"
-            },
-            {
-              "type": "assign (ip_dst) (ip_dst)"
-            }
-          ]
+        "TIMEOUT": {
+          "target": "TIMEOUT_ENDED"
+        },
+        "PACKET_AVAILABLE": {
+          "target": "HANDLE_REPLY",
+          "actions": {
+            "type": "assign (queue) (queue)"
+          }
         }
       }
     },
-    "MODIFY_PKT": {
+    "TIMEOUT_ENDED": {
       "entry": [
         {
-          "type": "set_IP_ttl (pkt ttl) (pkt)"
+          "type": "set (TIMEOUT) (event)"
         },
         {
-          "type": "set_IP_dst (pkt ip_dst) (pkt)"
+          "type": "set (0) (pkt)"
+        },
+        {
+          "type": "return_values (event pkt)"
+        }
+      ]
+    },
+    "HANDLE_REPLY": {
+      "entry": [
+        {
+          "type": "get_first_element (queue) (pkt)"
         },
         {
           "type": "done"
@@ -72,30 +96,20 @@
       ],
       "on": {
         "DONE": {
-          "target": "SEND_PACKET",
+          "target": "END",
           "actions": {
             "type": "assign (pkt) (pkt)"
           }
         }
       }
     },
-    "SEND_PACKET": {
-      "entry": {
-        "type": "send (pkt)"
-      },
-      "on": {
-        "PACKET_SENT": {
-          "target": "END"
-        }
-      }
-    },
     "END": {
       "entry": [
         {
-          "type": "set (PACKET_SENT) (event)"
+          "type": "set (RESPONSE_RECEIVED) (event)"
         },
         {
-          "type": "return_values (event)"
+          "type": "return_values (event pkt)"
         }
       ]
     }
