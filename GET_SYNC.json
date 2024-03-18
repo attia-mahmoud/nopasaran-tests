@@ -55,7 +55,7 @@
           "target": "END",
           "actions": [
             {
-              "type": "set (0) (ip_dst)"
+              "type": "assign (0) (ip_dst)"
             },
             {
               "type": "assign (TIMEOUT) (event)"
