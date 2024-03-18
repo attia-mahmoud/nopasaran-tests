@@ -94,6 +94,9 @@
               "type": "assign (ctrl) (ctrl)"
             }
           ]
+        },
+        "TIMEOUT": {
+          "target": "WAIT_FOR_MSG"
         }
       }
     },
