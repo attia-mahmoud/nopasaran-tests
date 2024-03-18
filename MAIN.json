@@ -96,7 +96,7 @@
           ]
         },
         "TIMEOUT": {
-          "target": "WAIT_FOR_MSG",
+          "target": "MSG_NOT_RECEIVED",
           "actions": {
             "type": "assign (ctrl) (ctrl)"
           }
@@ -148,6 +148,7 @@
         }
       }
     },
+    "MSG_NOT_RECEIVED": {},
     "SEND_FALSE_TTL_PKT": {
       "entry": [
         {
