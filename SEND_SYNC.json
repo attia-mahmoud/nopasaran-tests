@@ -61,13 +61,19 @@
       },
       "on": {
         "SYNC_SENT": {
-          "target": "END",
-          "actions": {
-            "type": "set (SYNC_SENT) (event)"
-          }
+          "target": "END"
         }
       }
     },
-    "END": {}
+    "END": {
+      "entry": [
+        {
+          "type": "set (SYNC_SENT) (event)"
+        },
+        {
+          "type": "return_values (event)"
+        }
+      ]
+    }
   }
 }
