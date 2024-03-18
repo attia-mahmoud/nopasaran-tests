@@ -43,7 +43,15 @@
       ],
       "on": {
         "DONE": {
-          "target": "SEND_DATA"
+          "target": "SEND_DATA",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (ip_dst) (ip_dst)"
+            }
+          ]
         }
       }
     },
