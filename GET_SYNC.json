@@ -22,7 +22,7 @@
         "DONE": {
           "target": "WAIT_FOR_SYNC",
           "actions": {
-            "type": "assign (ctrl)"
+            "type": "assign (ctrl) (ctrl)"
           }
         }
       }
