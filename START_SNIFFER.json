@@ -1,0 +1,62 @@
+{
+  "id": "START_SNIFFER",
+  "initial": "INIT",
+  "states": {
+    "INIT": {
+      "on": {
+        "STARTED": {
+          "target": "GET_VARS"
+        }
+      }
+    },
+    "GET_VARS": {
+      "entry": [
+        {
+          "type": "get_parameters (filter)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "START_SNIFFER",
+          "actions": {
+            "type": "assign (filter) (filter)"
+          }
+        }
+      }
+    },
+    "START_SNIFFER": {
+      "entry": [
+        {
+          "type": "packet_filter (filter)"
+        },
+        {
+          "type": "listen (queue)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": {
+            "type": "assign (queue) (queue)"
+          }
+        }
+      }
+    },
+    "END": {
+      "entry": [
+        {
+          "type": "set (SNIFFER_STARTED) (event"
+        },
+        {
+          "type": "return_values (event queue)"
+        }
+      ]
+    }
+  }
+}
