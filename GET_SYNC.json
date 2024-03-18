@@ -47,12 +47,20 @@
               "type": "assign (ip_dst) (ip_dst)"
             },
             {
-              "type": "set (MESSAGE_RECEIVED) (event)"
+              "type": "assign (MESSAGE_RECEIVED) (event)"
             }
           ]
         },
         "TIMEOUT": {
-          "target": "END"
+          "target": "END",
+          "actions": [
+            {
+              "type": "set (0) (ip_dst)"
+            },
+            {
+              "type": "assign (TIMEOUT) (event)"
+            }
+          ]
         }
       }
     },
