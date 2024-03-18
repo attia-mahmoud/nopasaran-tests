@@ -30,7 +30,7 @@
     "WAIT_FOR_SYNC": {
       "entry": [
         {
-          "type": "set_integer (10) (timeout)"
+          "type": "set_integer (4) (timeout)"
         },
         {
           "type": "wait_sync_signal (ctrl timeout) (ack)"
