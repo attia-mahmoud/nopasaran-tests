@@ -38,27 +38,48 @@
       ],
       "on": {
         "SYNC_AVAILABLE": {
-          "target": "END",
+          "target": "MSG_RECEIVED",
           "actions": [
             {
               "type": "assign (ctrl) (ctrl)"
             },
             {
               "type": "assign (ip_dst) (ip_dst)"
-            },
-            {
-              "type": "assign (MESSAGE_RECEIVED) (event)"
             }
           ]
         },
         "TIMEOUT": {
-          "target": "TIMEOUT_ENDED"
+          "target": "TIMEOUT_ENDED",
+          "actions": {
+            "type": "assign (ctrl) (ctrl)"
+          }
         }
       }
     },
-    "END": {
-      "entry": {
-        "type": "return_values (ctrl event ip_dst)"
+    "MSG_RECEIVED": {
+      "entry": [
+        {
+          "type": "set (MESSAGE_RECEIVED) (event)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": [
+            {
+              "type": "assign (ip_dst) (ip_dst)"
+            },
+            {
+              "type": "assign (event) (event)"
+            },
+            {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          ]
+        }
       }
     },
     "TIMEOUT_ENDED": {
@@ -82,9 +103,17 @@
             },
             {
               "type": "assign (event) (event)"
+            },
+            {
+              "type": "assign (ctrl) (ctrl)"
             }
           ]
         }
+      }
+    },
+    "END": {
+      "entry": {
+        "type": "return_values (ctrl event ip_dst)"
       }
     }
   }
