@@ -1,0 +1,54 @@
+{
+  "id": "SEND_ACK_MSG",
+  "initial": "INIT",
+  "states": {
+    "INIT": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMS"
+        }
+      }
+    },
+    "GET_PARAMS": {
+      "entry": [
+        {
+          "type": "get_parameters (ctrl)"
+        },
+        {
+          "type": "set (received) (ack)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SEND_SYNC",
+          "actions": {
+            "type": "assign (ack) (ack)"
+          }
+        }
+      }
+    },
+    "SEND_SYNC": {
+      "entry": {
+        "type": "sync (ctrl ack)"
+      },
+      "on": {
+        "SYNC_SENT": {
+          "target": "END"
+        }
+      }
+    },
+    "END": {
+      "entry": [
+        {
+          "type": "set (ACK_SENT) (event)"
+        },
+        {
+          "type": "return_values (event)"
+        }
+      ]
+    }
+  }
+}
