@@ -1,5 +1,5 @@
 {
-  "id": "SNIFF_PACKET",
+  "id": "GET_CAUGHT_PACKET",
   "initial": "INIT",
   "states": {
     "INIT": {
@@ -12,28 +12,7 @@
     "GET_VARS": {
       "entry": [
         {
-          "type": "get_parameters (filter)"
-        },
-        {
-          "type": "done"
-        }
-      ],
-      "on": {
-        "DONE": {
-          "target": "START_SNIFFER",
-          "actions": {
-            "type": "assign (filter) (filter)"
-          }
-        }
-      }
-    },
-    "START_SNIFFER": {
-      "entry": [
-        {
-          "type": "packet_filter (filter)"
-        },
-        {
-          "type": "listen (queue)"
+          "type": "get_parameters (queue)"
         },
         {
           "type": "set_integer (10) (timeout)"
@@ -65,7 +44,7 @@
           "target": "TIMEOUT_ENDED"
         },
         "PACKET_AVAILABLE": {
-          "target": "HANDLE_REPLY",
+          "target": "EXTRACT_PACKET",
           "actions": {
             "type": "assign (queue) (queue)"
           }
@@ -85,7 +64,7 @@
         }
       ]
     },
-    "HANDLE_REPLY": {
+    "EXTRACT_PACKET": {
       "entry": [
         {
           "type": "get_first_element (queue) (pkt)"
@@ -106,7 +85,7 @@
     "END": {
       "entry": [
         {
-          "type": "set (RESPONSE_RECEIVED) (event)"
+          "type": "set (PACKET_EXTRACTED) (event)"
         },
         {
           "type": "return_values (event pkt)"
