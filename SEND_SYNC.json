@@ -20,7 +20,7 @@
       ],
       "on": {
         "DONE": {
-          "target": "HANDLE_REPLY",
+          "target": "GET_ICMP_PAYLOAD",
           "actions": [
             {
               "type": "assign (ctrl) (ctrl)"
@@ -32,10 +32,59 @@
         }
       }
     },
-    "HANDLE_REPLY": {
+    "GET_ICMP_PAYLOAD": {
       "entry": [
         {
-          "type": "get_IP_dst (pkt) (ip_dst)"
+          "type": "get_ICMP_payload (pkt) (payload)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "GET_PORT",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (payload) (payload)"
+            }
+          ]
+        }
+      }
+    },
+    "GET_PORT": {
+      "entry": [
+        {
+          "type": "get_UDP_sport (payload) (port)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "GET_IP",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (payload) (payload)"
+            },
+            {
+              "type": "assign (port) (port)"
+            }
+          ]
+        }
+      }
+    },
+    "GET_IP": {
+      "entry": [
+        {
+          "type": "get_IP_src (payload) (ip)"
         },
         {
           "type": "done"
@@ -49,7 +98,10 @@
               "type": "assign (ctrl) (ctrl)"
             },
             {
-              "type": "assign (ip_dst) (ip_dst)"
+              "type": "assign (port) (port)"
+            },
+            {
+              "type": "assign (ip) (ip)"
             }
           ]
         }
@@ -57,7 +109,7 @@
     },
     "SEND_DATA": {
       "entry": {
-        "type": "sync (ctrl ip_dst)"
+        "type": "sync (ctrl ip port)"
       },
       "on": {
         "SYNC_SENT": {
