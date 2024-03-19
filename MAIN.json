@@ -51,7 +51,7 @@
           "type": "get_from_file (variables ttl) (ttl)"
         },
         {
-          "type": "get_from_file (variables ip_dst) (ip_dst)"
+          "type": "get_from_file (variables ip_dst) (ip)"
         },
         {
           "type": "done"
@@ -65,7 +65,7 @@
               "type": "assign (ttl) (ttl)"
             },
             {
-              "type": "assign (ip_dst) (ip_dst)"
+              "type": "assign (ip) (ip)"
             },
             {
               "type": "assign (ctrl) (ctrl)"
@@ -77,7 +77,7 @@
     "WAIT_FOR_MSG": {
       "entry": [
         {
-          "type": "call (GET_SYNC ctrl) (event ip_dst)"
+          "type": "call (GET_SYNC ctrl) (event ip port)"
         },
         {
           "type": "trigger (event)"
@@ -88,18 +88,18 @@
           "target": "SEND_SYNC_ACK",
           "actions": [
             {
-              "type": "assign (ip_dst) (ip_dst)"
+              "type": "assign (ip) (ip)"
             },
             {
               "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (port) (port)"
             }
           ]
         },
         "TIMEOUT": {
-          "target": "WAIT_FOR_MSG",
-          "actions": {
-            "type": "assign (ctrl) (ctrl)"
-          }
+          "target": "MSG_NOT_RECEIVED"
         }
       }
     },
@@ -124,7 +124,7 @@
               "type": "assign (ttl) (ttl)"
             },
             {
-              "type": "assign (ip_dst) (ip_dst)"
+              "type": "assign (ip) (ip)"
             },
             {
               "type": "assign (ctrl) (ctrl)"
@@ -147,14 +147,18 @@
       ],
       "on": {
         "ACK_SENT": {
-          "target": "SEND_PKT"
+          "target": "SEND_UDP_PKT"
         }
       }
     },
+    "MSG_NOT_RECEIVED": {},
     "SEND_FALSE_TTL_PKT": {
       "entry": [
         {
-          "type": "call (SEND_PACKET ttl ip_dst) (event)"
+          "type": "set_integer (443) (port)"
+        },
+        {
+          "type": "call (SEND_PACKET ttl ip port) (event)"
         },
         {
           "type": "trigger (event)"
@@ -174,13 +178,13 @@
         }
       }
     },
-    "SEND_PKT": {
+    "SEND_UDP_PKT": {
       "entry": [
         {
           "type": "set (64) (ttl)"
         },
         {
-          "type": "call (SEND_PACKET ttl ip_dst) (event)"
+          "type": "call (SEND_PACKET ttl ip port) (event)"
         },
         {
           "type": "trigger (event)"
@@ -203,7 +207,7 @@
       ],
       "on": {
         "PACKET_EXTRACTED": {
-          "target": "SEND_SYNC_MSG",
+          "target": "SNIFF_FOR_UDP_PKT",
           "actions": [
             {
               "type": "assign (pkt) (pkt)"
@@ -233,6 +237,33 @@
         }
       }
     },
+    "SNIFF_FOR_UDP_PKT": {
+      "entry": [
+        {
+          "type": "get_from_file (variables udp_filter) (filter)"
+        },
+        {
+          "type": "call (START_SNIFFER filter) (event queue)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "SNIFFER_STARTED": {
+          "target": "SEND_SYNC_MSG",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (queue) (queue)"
+            }
+          ]
+        }
+      }
+    },
+    "ICMP_ERROR_NOT_RECEIVED": {},
     "SEND_SYNC_MSG": {
       "entry": [
         {
@@ -256,7 +287,6 @@
         }
       }
     },
-    "ICMP_ERROR_NOT_RECEIVED": {},
     "WAIT_FOR_ACK": {
       "entry": [
         {
@@ -268,38 +298,24 @@
       ],
       "on": {
         "ACK_RECEIVED": {
-          "target": "SNIFF_UDP_PKT",
+          "target": "GET_UDP_PKT",
           "actions": {
             "type": "assign (ctrl) (ctrl)"
           }
-        },
-        "TIMEOUT": {
-          "target": "SEND_SYNC_MSG",
-          "actions": [
-            {
-              "type": "assign (pkt) (pkt)"
-            },
-            {
-              "type": "assign (ctrl) (ctrl)"
-            }
-          ]
         }
       }
     },
-    "SNIFF_UDP_PKT": {
+    "GET_UDP_PKT": {
       "entry": [
         {
-          "type": "get_from_file (variables udp_filter) (filter)"
-        },
-        {
-          "type": "call (SNIFF_PACKET filter) (event pkt)"
+          "type": "call (GET_CAUGHT_PACKET queue) (event pkt)"
         },
         {
           "type": "trigger (event)"
         }
       ],
       "on": {
-        "RESPONSE_RECEIVED": {
+        "PACKET_EXTRACTED": {
           "target": "SEND_UDP_ACK",
           "actions": {
             "type": "assign (ctrl) (ctrl)"
@@ -321,7 +337,6 @@
           "target": "END"
         }
       }
-    },
-    "MSG_NOT_RECEIVED": {}
+    }
   }
 }
