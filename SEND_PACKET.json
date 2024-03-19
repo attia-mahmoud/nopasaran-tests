@@ -12,7 +12,7 @@
     "GET_PARAMS": {
       "entry": [
         {
-          "type": "get_parameters (ttl ip_dst)"
+          "type": "get_parameters (ttl ip port)"
         },
         {
           "type": "done"
@@ -26,7 +26,10 @@
               "type": "assign (ttl) (ttl)"
             },
             {
-              "type": "assign (ip_dst) (ip_dst)"
+              "type": "assign (ip) (ip)"
+            },
+            {
+              "type": "assign (port) (port)"
             }
           ]
         }
@@ -52,7 +55,10 @@
               "type": "assign (ttl) (ttl)"
             },
             {
-              "type": "assign (ip_dst) (ip_dst)"
+              "type": "assign (ip) (ip)"
+            },
+            {
+              "type": "assign (port) (port)"
             }
           ]
         }
@@ -64,7 +70,10 @@
           "type": "set_IP_ttl (pkt ttl) (pkt)"
         },
         {
-          "type": "set_IP_dst (pkt ip_dst) (pkt)"
+          "type": "set_IP_dst (pkt ip) (pkt)"
+        },
+        {
+          "type": "set_UDP_dport (pkt port) (pkt)"
         },
         {
           "type": "done"
