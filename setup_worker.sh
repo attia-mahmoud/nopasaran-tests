@@ -39,4 +39,16 @@ cat > "conf_${ENDPOINT_NAME}.json" <<EOF
 }
 EOF
 
-echo "${ENDPOINT_NAME} key, certificate, PEM file, and configuration file have been created."
+# Create the variables file
+cat > "variables.json" <<EOF
+{
+  "ttl": 1,
+  "ip_dst": "${DESTINATION_IP}",
+  "icmp_filter": "icmp",
+  "udp_filter": "udp",
+  "role": "client",
+  "controller_conf_filename": "conf_${ENDPOINT_NAME}.json"
+}
+EOF
+
+echo "${ENDPOINT_NAME} key, certificate, PEM file, configuration file, and variables file have been created."
