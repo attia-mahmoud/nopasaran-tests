@@ -1,5 +1,5 @@
 {
-  "id": "WAIT_FOR_ACK_MSG",
+  "id": "WAIT_FOR_MSG",
   "initial": "INIT",
   "states": {
     "INIT": {
@@ -30,25 +30,28 @@
     "WAIT_FOR_SYNC": {
       "entry": [
         {
-          "type": "set_integer (4) (timeout)"
+          "type": "set_integer (10) (timeout)"
         },
         {
-          "type": "wait_sync_signal (ctrl timeout) (ack)"
+          "type": "wait_sync_signal (ctrl timeout) (msg)"
         }
       ],
       "on": {
         "SYNC_AVAILABLE": {
-          "target": "SYNC_RECEIVED"
+          "target": "MSG_RECEIVED",
+          "actions": {
+            "type": "assign (msg) (msg)"
+          }
         },
         "TIMEOUT": {
           "target": "TIMEOUT_ENDED"
         }
       }
     },
-    "SYNC_RECEIVED": {
+    "MSG_RECEIVED": {
       "entry": [
         {
-          "type": "set (ACK_RECEIVED) (event)"
+          "type": "set (MSG_RECEIVED) (event)"
         },
         {
           "type": "done"
@@ -57,14 +60,22 @@
       "on": {
         "DONE": {
           "target": "END",
-          "actions": {
-            "type": "assign (event) (event)"
-          }
+          "actions": [
+            {
+              "type": "assign (msg) (msg)"
+            },
+            {
+              "type": "assign (event) (event)"
+            }
+          ]
         }
       }
     },
     "TIMEOUT_ENDED": {
       "entry": [
+        {
+          "type": "set (false) (msg)"
+        },
         {
           "type": "set (TIMEOUT) (event)"
         },
@@ -75,15 +86,20 @@
       "on": {
         "DONE": {
           "target": "END",
-          "actions": {
-            "type": "assign (event) (event)"
-          }
+          "actions": [
+            {
+              "type": "assign (msg) (msg)"
+            },
+            {
+              "type": "assign (event) (event)"
+            }
+          ]
         }
       }
     },
     "END": {
       "entry": {
-        "type": "return_values (event)"
+        "type": "return_values (event msg)"
       }
     }
   }
