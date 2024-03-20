@@ -1,5 +1,5 @@
 {
-  "id": "SEND_ACK_MSG",
+  "id": "SEND_MSG",
   "initial": "INIT",
   "states": {
     "INIT": {
@@ -12,10 +12,7 @@
     "GET_PARAMS": {
       "entry": [
         {
-          "type": "get_parameters (ctrl)"
-        },
-        {
-          "type": "set (received) (ack)"
+          "type": "get_parameters (ctrl msg)"
         },
         {
           "type": "done"
@@ -23,16 +20,13 @@
       ],
       "on": {
         "DONE": {
-          "target": "SEND_SYNC",
-          "actions": {
-            "type": "assign (ack) (ack)"
-          }
+          "target": "SEND_SYNC"
         }
       }
     },
     "SEND_SYNC": {
       "entry": {
-        "type": "sync (ctrl ack)"
+        "type": "sync (ctrl msg)"
       },
       "on": {
         "SYNC_SENT": {
@@ -43,7 +37,7 @@
     "END": {
       "entry": [
         {
-          "type": "set (ACK_SENT) (event)"
+          "type": "set (MSG_SENT) (event)"
         },
         {
           "type": "return_values (event)"
