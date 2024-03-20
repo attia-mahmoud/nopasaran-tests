@@ -1,5 +1,5 @@
 {
-  "id": "GET_CAUGHT_PACKET",
+  "id": "EXTRACT_CAUGHT_PACKET",
   "initial": "INIT",
   "states": {
     "INIT": {
