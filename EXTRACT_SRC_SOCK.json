@@ -1,0 +1,87 @@
+{
+  "id": "EXTRACT_SRC_SOCK",
+  "initial": "INIT",
+  "states": {
+    "INIT": {
+      "on": {
+        "STARTED": {
+          "target": "GET_PARAMS"
+        }
+      }
+    },
+    "GET_PARAMS": {
+      "entry": [
+        {
+          "type": "get_parameters (pkt)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "GET_SPORT",
+          "actions": {
+            "type": "assign (pkt) (pkt)"
+          }
+        }
+      }
+    },
+    "GET_SPORT": {
+      "entry": [
+        {
+          "type": "get_UDP_sport (pkt) (port)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "GET_SRC_IP",
+          "actions": [
+            {
+              "type": "assign (pkt) (pkt)"
+            },
+            {
+              "type": "assign (port) (port)"
+            }
+          ]
+        }
+      }
+    },
+    "GET_SRC_IP": {
+      "entry": [
+        {
+          "type": "get_IP_src (pkt) (ip)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END",
+          "actions": [
+            {
+              "type": "assign (port) (port)"
+            },
+            {
+              "type": "assign (ip) (ip)"
+            }
+          ]
+        }
+      }
+    },
+    "END": {
+      "entry": [
+        {
+          "type": "set (SRC_SOCK_EXTRACTED) (event)"
+        },
+        {
+          "type": "return_values (event ip port)"
+        }
+      ]
+    }
+  }
+}
