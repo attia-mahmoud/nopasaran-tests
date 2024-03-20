@@ -1,0 +1,174 @@
+{
+  "id": "MAIN_COMPARE_PKTS",
+  "initial": "INIT",
+  "states": {
+    "INIT": {
+      "on": {
+        "STARTED": {
+          "target": "CREATE_CTRL_CHANNEL"
+        }
+      }
+    },
+    "CREATE_CTRL_CHANNEL": {
+      "entry": [
+        {
+          "type": "call (CREATE_CONTROL_CHANNEL) (event ctrl role)"
+        },
+        {
+          "type": "set (client) (client)"
+        },
+        {
+          "type": "set (server) (server)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "CONTROL_CHANNEL_READY": [
+          {
+            "target": "GET_PACKET_VARS",
+            "cond": "equal (role client)",
+            "actions": {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          },
+          {
+            "target": "SNIFF_FOR_PKT",
+            "actions": {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          }
+        ]
+      }
+    },
+    "GET_PACKET_VARS": {
+      "entry": [
+        {
+          "type": "get_from_file (variables ip_dst) (ip)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SEND_PACKET",
+          "actions": [
+            {
+              "type": "assign (ip) (ip)"
+            },
+            {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          ]
+        }
+      }
+    },
+    "SNIFF_FOR_PKT": {
+      "entry": [
+        {
+          "type": "get_from_file (variables udp_filter) (filter)"
+        },
+        {
+          "type": "call (START_SNIFFER filter) (event queue)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "SNIFFER_STARTED": {
+          "target": "GET_PKT",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (queue) (queue)"
+            }
+          ]
+        }
+      }
+    },
+    "SEND_PACKET": {
+      "entry": [
+        {
+          "type": "set_integer (443) (port)"
+        },
+        {
+          "type": "set_integer (64) (ttl)"
+        },
+        {
+          "type": "call (SEND_PACKET ttl ip port) (event original_pkt)"
+        }
+      ],
+      "on": {
+        "PACKET_SENT": {
+          "target": "WAIT_FOR_MSG",
+          "actions": [
+            {
+              "type": "assign (ctrl) ctrl)"
+            },
+            {
+              "type": "assign (original_pkt) (original_pkt)"
+            }
+          ]
+        }
+      }
+    },
+    "GET_PKT": {
+      "entry": [
+        {
+          "type": "call (EXTRACT_CAUGHT_PACKET queue) (event pkt)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "TIMEOUT": {
+          "target": "PKT_NOT_RECEIVED"
+        },
+        "PACKET_EXTRACTED": {
+          "target": "SEND_RECEIVED_PKT",
+          "actions": [
+            {
+              "type": "assign (pkt) (pkt)"
+            },
+            {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          ]
+        }
+      }
+    },
+    "WAIT_FOR_MSG": {
+      "entry": [
+        {
+          "type": "call (WAIT_FOR_MSG ctrl) (event arrived_pkt)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "MSG_RECEIVED": {
+          "target": "END"
+        }
+      }
+    },
+    "PKT_NOT_RECEIVED": {},
+    "SEND_RECEIVED_PKT": {
+      "entry": {
+        "type": "call (SEND_CUSTOM_MSG ctrl pkt) (event)"
+      },
+      "on": {
+        "MSG_SENT": {
+          "target": "END"
+        }
+      }
+    },
+    "END": {}
+  }
+}
