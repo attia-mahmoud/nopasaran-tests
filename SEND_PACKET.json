@@ -12,7 +12,75 @@
     "GET_PARAMS": {
       "entry": [
         {
-          "type": "get_parameters (ttl ip port)"
+          "type": "get_parameters (ttl ip port protocol)"
+        },
+        {
+          "type": "set (udp) (udp)"
+        },
+        {
+          "type": "set (tcp) (tcp)"
+        },
+        {
+          "type": "set (icmp) (icmp)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": [
+          {
+            "target": "CREATE_UDP_PACKET",
+            "cond": "equal (protocol udp)",
+            "actions": [
+              {
+                "type": "assign (ttl) (ttl)"
+              },
+              {
+                "type": "assign (ip) (ip)"
+              },
+              {
+                "type": "assign (port) (port)"
+              }
+            ]
+          },
+          {
+            "target": "CREATE_TCP_PACKET",
+            "cond": "equal (protocol tcp)",
+            "actions": [
+              {
+                "type": "assign (ttl) (ttl)"
+              },
+              {
+                "type": "assign (ip) (ip)"
+              },
+              {
+                "type": "assign (port) (port)"
+              }
+            ]
+          },
+          {
+            "target": "CREATE_ICMP_PACKET",
+            "cond": "equal (protocol icmp)",
+            "actions": [
+              {
+                "type": "assign (ttl) (ttl)"
+              },
+              {
+                "type": "assign (ip) (ip)"
+              },
+              {
+                "type": "assign (port) (port)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "CREATE_UDP_PACKET": {
+      "entry": [
+        {
+          "type": "create_UDP_packet (pkt)"
         },
         {
           "type": "done"
@@ -20,8 +88,11 @@
       ],
       "on": {
         "DONE": {
-          "target": "CREATE_PACKET",
+          "target": "MODIFY_PKT",
           "actions": [
+            {
+              "type": "assign (pkt) (pkt)"
+            },
             {
               "type": "assign (ttl) (ttl)"
             },
@@ -35,10 +106,39 @@
         }
       }
     },
-    "CREATE_PACKET": {
+    "CREATE_TCP_PACKET": {
       "entry": [
         {
-          "type": "create_UDP_packet (pkt)"
+          "type": "create_TCP_packet (pkt)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "MODIFY_PKT",
+          "actions": [
+            {
+              "type": "assign (pkt) (pkt)"
+            },
+            {
+              "type": "assign (ttl) (ttl)"
+            },
+            {
+              "type": "assign (ip) (ip)"
+            },
+            {
+              "type": "assign (port) (port)"
+            }
+          ]
+        }
+      }
+    },
+    "CREATE_ICMP_PACKET": {
+      "entry": [
+        {
+          "type": "create_ICMP_packet (pkt)"
         },
         {
           "type": "done"
@@ -94,7 +194,10 @@
       },
       "on": {
         "PACKET_SENT": {
-          "target": "END"
+          "target": "END",
+          "actions": {
+            "type": "assign (pkt) (pkt)"
+          }
         }
       }
     },
@@ -104,7 +207,7 @@
           "type": "set (PACKET_SENT) (event)"
         },
         {
-          "type": "return_values (event)"
+          "type": "return_values (event pkt)"
         }
       ]
     }
