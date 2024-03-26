@@ -1,5 +1,5 @@
 {
-  "id": "MAIN_COMPARE_PKTS",
+  "id": "MAIN_COMPARE",
   "initial": "INIT",
   "states": {
     "INIT": {
