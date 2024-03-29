@@ -26,7 +26,7 @@
               "type": "assign (ctrl) (ctrl)"
             },
             {
-              "type": "assign (msg (msg)"
+              "type": "assign (msg) (msg)"
             }
           ]
         }
