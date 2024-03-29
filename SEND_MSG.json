@@ -20,7 +20,15 @@
       ],
       "on": {
         "DONE": {
-          "target": "SEND_SYNC"
+          "target": "SEND_SYNC",
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (msg (msg)"
+            }
+          ]
         }
       }
     },
