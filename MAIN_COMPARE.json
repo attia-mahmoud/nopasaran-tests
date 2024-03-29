@@ -100,7 +100,10 @@
           "type": "set_integer (64) (ttl)"
         },
         {
-          "type": "call (SEND_PACKET ttl ip port) (event original_pkt)"
+          "type": "set (udp) (protocol)"
+        },
+        {
+          "type": "call (SEND_PACKET ttl ip port protocol) (event original_pkt)"
         }
       ],
       "on": {
@@ -161,7 +164,7 @@
     "PKT_NOT_RECEIVED": {},
     "SEND_RECEIVED_PKT": {
       "entry": {
-        "type": "call (SEND_CUSTOM_MSG ctrl pkt) (event)"
+        "type": "call (SEND_MSG ctrl pkt) (event)"
       },
       "on": {
         "MSG_SENT": {
