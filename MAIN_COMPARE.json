@@ -104,6 +104,9 @@
         },
         {
           "type": "call (SEND_PACKET ttl ip port protocol) (event original_pkt)"
+        },
+        {
+          "type": "trigger (event)"
         }
       ],
       "on": {
