@@ -186,10 +186,10 @@
     "PRINT_RESULTS": {
       "entry": [
         {
-          "type": "print (original_pkt)"
+          "type": "print_packet (original_pkt)"
         },
         {
-          "type": "print (arrived_pkt)"
+          "type": "print_packet (arrived_pkt)"
         },
         {
           "type": "done"
