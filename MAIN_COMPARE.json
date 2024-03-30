@@ -160,7 +160,7 @@
       ],
       "on": {
         "MSG_RECEIVED": {
-          "target": "END"
+          "target": "PRINT_RESULTS"
         }
       }
     },
@@ -171,10 +171,28 @@
       },
       "on": {
         "MSG_SENT": {
-          "target": "END"
+          "target": "Test Successful"
         }
       }
     },
-    "END": {}
+    "PRINT_RESULTS": {
+      "entry": [
+        {
+          "type": "print (original_pkt)"
+        },
+        {
+          "type": "print (arrived_pkt)"
+        },
+        {
+          "type": "done"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "Test Successful"
+        }
+      }
+    },
+    "Test Successful": {}
   }
 }
