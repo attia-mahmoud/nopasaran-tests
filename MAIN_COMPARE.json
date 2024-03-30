@@ -160,7 +160,7 @@
       ],
       "on": {
         "MSG_RECEIVED": {
-          "target": "PRINT_RESULTS",
+          "target": "ADD_RESULTS_TO_FILE",
           "actions": [
             {
               "type": "assign (original_pkt) (original_pkt)"
@@ -183,13 +183,22 @@
         }
       }
     },
-    "PRINT_RESULTS": {
+    "ADD_RESULTS_TO_FILE": {
       "entry": [
         {
-          "type": "print_packet (original_pkt)"
+          "type": "print_packet (original_pkt) (original_pkt)"
         },
         {
-          "type": "print_packet (arrived_pkt)"
+          "type": "print_packet (arrived_pkt) (arrived_pkt)"
+        },
+        {
+          "type": "set (results.txt) (file)"
+        },
+        {
+          "type": "print_to_file (file original_pkt)"
+        },
+        {
+          "type": "print_to_file (file arrived_pkt)"
         },
         {
           "type": "done"
