@@ -114,7 +114,7 @@
           "target": "WAIT_FOR_MSG",
           "actions": [
             {
-              "type": "assign (ctrl) ctrl)"
+              "type": "assign (ctrl) (ctrl)"
             },
             {
               "type": "assign (original_pkt) (original_pkt)"
