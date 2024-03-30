@@ -160,7 +160,15 @@
       ],
       "on": {
         "MSG_RECEIVED": {
-          "target": "PRINT_RESULTS"
+          "target": "PRINT_RESULTS",
+          "actions": [
+            {
+              "type": "assign (original_pkt) (original_pkt)"
+            },
+            {
+              "type": "assign (arrived_pkt) (arrived_pkt)"
+            }
+          ]
         }
       }
     },
