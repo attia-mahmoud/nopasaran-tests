@@ -482,7 +482,7 @@
           "type": "call (EXTRACT_CAUGHT_PACKET queue) (event pkt)"
         },
         {
-          "type": "print_packet (pkt)"
+          "type": "print_packet (pkt) (pkt)"
         },
         {
           "type": "trigger (event)"
