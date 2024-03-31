@@ -305,7 +305,7 @@
     "SEND_UDP_PKT": {
       "entry": [
         {
-          "type": "set (64) (ttl)"
+          "type": "set_integer (64) (ttl)"
         },
         {
           "type": "set (udp) (protocol)"
