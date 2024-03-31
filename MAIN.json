@@ -345,7 +345,7 @@
     "WAIT_FOR_UDP_ACK": {
       "entry": [
         {
-          "type": "call (WAIT_FOR_MSG ctrl) (event)"
+          "type": "call (WAIT_FOR_MSG ctrl) (event ack)"
         },
         {
           "type": "trigger (event)"
@@ -391,7 +391,7 @@
     "WAIT_FOR_IP_ACK": {
       "entry": [
         {
-          "type": "call (WAIT_FOR_MSG ctrl) (event)"
+          "type": "call (WAIT_FOR_MSG ctrl) (event ack)"
         },
         {
           "type": "trigger (event)"
@@ -440,7 +440,7 @@
     "WAIT_FOR_PORT_ACK": {
       "entry": [
         {
-          "type": "call (WAIT_FOR_MSG ctrl) (event)"
+          "type": "call (WAIT_FOR_MSG ctrl) (event ack)"
         },
         {
           "type": "trigger (event)"
