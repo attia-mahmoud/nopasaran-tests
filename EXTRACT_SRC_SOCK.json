@@ -30,7 +30,7 @@
     "GET_SPORT": {
       "entry": [
         {
-          "type": "get_UDP_sport (pkt) (port)"
+          "type": "get_UDPerror_sport (pkt) (port)"
         },
         {
           "type": "done"
@@ -53,7 +53,7 @@
     "GET_SRC_IP": {
       "entry": [
         {
-          "type": "get_IP_src (pkt) (ip)"
+          "type": "get_IPerror_src (pkt) (ip)"
         },
         {
           "type": "done"
