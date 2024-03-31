@@ -35,13 +35,14 @@
           },
           {
             "target": "WAIT_FOR_IP",
+            "cond": "equal (role server)",
             "actions": {
               "type": "assign (ctrl) (ctrl)"
             }
           }
         ],
         "TIMEOUT": {
-          "target": "END"
+          "target": "CTRL_CHANNEL_TIMEOUT"
         }
       }
     },
@@ -97,7 +98,7 @@
         }
       }
     },
-    "END": {},
+    "CTRL_CHANNEL_TIMEOUT": {},
     "GET_PACKET_VARS": {
       "entry": [
         {
@@ -352,7 +353,10 @@
       ],
       "on": {
         "MSG_RECEIVED": {
-          "target": "END"
+          "target": "SUCCESS"
+        },
+        "TIMEOUT": {
+          "target": "UDP_ACK_NOT_RECEIVED"
         }
       }
     },
@@ -366,7 +370,7 @@
         }
       ],
       "on": {
-        "SYNC_SENT": {
+        "MSG_SENT": {
           "target": "WAIT_FOR_IP_ACK",
           "actions": [
             {
@@ -382,6 +386,8 @@
         }
       }
     },
+    "SUCCESS": {},
+    "UDP_ACK_NOT_RECEIVED": {},
     "WAIT_FOR_IP_ACK": {
       "entry": [
         {
@@ -418,7 +424,7 @@
         }
       ],
       "on": {
-        "SYNC_SENT": {
+        "MSG_SENT": {
           "target": "WAIT_FOR_PORT_ACK",
           "actions": [
             {
@@ -486,7 +492,7 @@
       ],
       "on": {
         "MSG_SENT": {
-          "target": "END"
+          "target": "SUCCESS"
         }
       }
     }
