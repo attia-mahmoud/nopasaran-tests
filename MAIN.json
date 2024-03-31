@@ -146,9 +146,14 @@
       "on": {
         "MSG_SENT": {
           "target": "WAIT_FOR_PORT",
-          "actions": {
-            "type": "assign (ctrl) (ctrl)"
-          }
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (ip) (ip)"
+            }
+          ]
         }
       }
     },
