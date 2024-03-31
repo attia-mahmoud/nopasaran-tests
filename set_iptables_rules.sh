@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Set default chain policies
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
