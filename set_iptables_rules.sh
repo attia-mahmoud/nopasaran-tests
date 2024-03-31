@@ -16,4 +16,5 @@ iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED -j ACCEPT
 
 # Allowing Internal Network to access External
+# Assuming eth0 is your external network, and eth1 is your internal network
 sudo iptables -A FORWARD -i eth1 -o eth0 -j ACCEPT
