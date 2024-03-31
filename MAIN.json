@@ -145,7 +145,10 @@
       ],
       "on": {
         "MSG_SENT": {
-          "target": "WAIT_FOR_PORT"
+          "target": "WAIT_FOR_PORT",
+          "actions": {
+            "type": "assign (ctrl) (ctrl)"
+          }
         }
       }
     },
@@ -250,9 +253,17 @@
       "on": {
         "MSG_SENT": {
           "target": "SEND_UDP_PKT",
-          "actions": {
-            "type": "assign (ctrl) (ctrl)"
-          }
+          "actions": [
+            {
+              "type": "assign (ctrl) (ctrl)"
+            },
+            {
+              "type": "assign (ip) (ip)"
+            },
+            {
+              "type": "assign (port) (port)"
+            }
+          ]
         }
       }
     },
