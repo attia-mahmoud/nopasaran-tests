@@ -479,7 +479,10 @@
     "EXTRACT_UDP_PKT": {
       "entry": [
         {
-          "type": "call (GET_CAUGHT_PACKET queue) (event pkt)"
+          "type": "call (EXTRACT_CAUGHT_PACKET queue) (event pkt)"
+        },
+        {
+          "type": "print_packet (pkt)"
         },
         {
           "type": "trigger (event)"
