@@ -10,7 +10,7 @@ curl https://sh.rustup.rs -sSf | sh
 # Clone quiche and build examples
 git clone --recursive https://github.com/cloudflare/quiche
 cd quiche
-cargo build --release --examples
+cargo build --examples
 
 # Check if an IP address is provided as the first argument
 if [ "$#" -eq 1 ]; then
