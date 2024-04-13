@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Install necessary packages
-apt-get install -y pkg-config libssl-dev git curl
+apt-get update
+apt-get install -y pkg-config libssl-dev git curl build-essential cmake
 
 # Install Rust
 curl https://sh.rustup.rs -sSf | sh
