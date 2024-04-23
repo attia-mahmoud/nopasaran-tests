@@ -41,7 +41,7 @@ cat > "conf_${ENDPOINT_NAME}.json" <<EOF
 }
 EOF
 
-if [ $4 -e 'client' ]; then
+if [ $4 == 'client' ]; then
     # Create the variables file
     cat > "variables.json" <<EOF
 {
@@ -57,7 +57,7 @@ EOF
 fi
 
 
-if [ $4 -e 'server' ]; then
+if [ $4 == 'server' ]; then
     # Create the variables file
     cat > "variables.json" <<EOF
 {
