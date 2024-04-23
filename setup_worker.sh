@@ -50,7 +50,7 @@ if [ $4 == "client" ]; then
   "icmp_filter": "icmp",
   "udp_filter": "udp",
   "role": "client",
-  "quic_command": "python3 examples/http3_client.py https://${DESTINATION_IP}:4433 --insecure",
+  "quic_command": "python3 aioquic/examples/http3_client.py https://${DESTINATION_IP}:4433 --insecure",
   "controller_conf_filename": "conf_${ENDPOINT_NAME}.json"
 }
 EOF
@@ -66,7 +66,7 @@ if [ $4 == "server" ]; then
   "icmp_filter": "icmp",
   "udp_filter": "udp",
   "role": "server",
-  "quic_command": "python3 examples/http3_server.py --certificate cert.pem --private-key cert.key --crets-log secrets.txt",
+  "quic_command": "python3 aioquic/examples/http3_server.py --certificate cert.pem --private-key cert.key --crets-log secrets.txt",
   "controller_conf_filename": "conf_${ENDPOINT_NAME}.json"
 }
 EOF
