@@ -2,8 +2,6 @@
 
 git clone https://github.com/aiortc/aioquic
 
-cd aioquic
-
 apt-get update && apt-get install pip -y
 
 pip install wsproto aioquic starlette jinja2 dnslib
