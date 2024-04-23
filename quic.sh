@@ -16,3 +16,5 @@ python3 examples/http3_server.py --certificate cert.pem --private-key cert.key
 
 # client
 python3 examples/http3_client.py https://192.168.122.2:4433 --insecure
+
+# --insecure flag added as it doesn't allow self-signed certs
