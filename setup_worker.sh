@@ -2,7 +2,7 @@
 
 # Check if four arguments were provided
 if [ "$#" -ne 4 ]; then
-    echo "Usage: $0 <endpoint_number> <destination_ip> <server_port> <role>"
+    echo "Usage: $0 <endpoint_number> <node_ip> <destination_ip> <server_port> <role>"
     exit 1
 fi
 
@@ -10,10 +10,11 @@ apt-get update && apt-get install tcpdump
 
 # Assign arguments to variables
 NUMBER=$1
-DESTINATION_IP=$2
-SERVER_PORT=$3
+NODE_IP=$2
+DESTINATION_IP=$3
+SERVER_PORT=$4
 ENDPOINT_NAME="endpoint${NUMBER}"
-ROLE=$4
+ROLE=$5
 
 # Add root_ca.crt to root store
 cp root_ca.crt /usr/local/share/ca-certificates
@@ -41,7 +42,7 @@ cat > "conf_${ENDPOINT_NAME}.json" <<EOF
 }
 EOF
 
-if [ $4 == "client" ]; then
+if [ $5 == "client" ]; then
     # Create the variables file
     cat > "variables.json" <<EOF
 {
@@ -57,7 +58,7 @@ EOF
 fi
 
 
-if [ $4 == "server" ]; then
+if [ $5 == "server" ]; then
     # Create the variables file
     cat > "variables.json" <<EOF
 {
@@ -66,7 +67,7 @@ if [ $4 == "server" ]; then
   "icmp_filter": "icmp",
   "udp_filter": "udp",
   "role": "server",
-  "quic_command": "python3 aioquic/examples/http3_server.py --certificate cert.pem --private-key cert.key --crets-log secrets.txt",
+  "quic_command": "hypercorn --quic-bind ${NODE_IP}:4433 --certfile cert.pem --keyfile cert.key run:app",
   "controller_conf_filename": "conf_${ENDPOINT_NAME}.json"
 }
 EOF
