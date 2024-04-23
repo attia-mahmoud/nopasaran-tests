@@ -1,0 +1,125 @@
+{
+  "id": "MAIN_QUIC",
+  "initial": "INITIALIZATION STATE",
+  "states": {
+    "INITIALIZATION STATE": {
+      "on": {
+        "STARTED": {
+          "target": "CREATE_CTRL_CHANNEL"
+        }
+      }
+    },
+    "CREATE_CTRL_CHANNEL": {
+      "entry": [
+        {
+          "type": "call (CREATE_CONTROL_CHANNEL) (event ctrl role)"
+        },
+        {
+          "type": "set (client) (client)"
+        },
+        {
+          "type": "set (server) (server)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "TIMEOUT": {
+          "target": "CTRL_CHANNEL_TIMEOUT"
+        },
+        "CONTROL_CHANNEL_READY": [
+          {
+            "target": "WAIT_FOR_SERVER_STARTED_ACK",
+            "cond": "equal (role client)",
+            "actions": {
+              "type": "assign (ctrl) (ctrl)"
+            }
+          },
+          {
+            "target": "START_QUIC_SERVER",
+            "cond": "equal (role server)"
+          }
+        ]
+      }
+    },
+    "CTRL_CHANNEL_TIMEOUT": {},
+    "WAIT_FOR_SERVER_STARTED_ACK": {
+      "entry": [
+        {
+          "type": "call (WAIT_FOR_MSG ctrl) (event ack)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "MSG_RECEIVED": {
+          "target": "INITIATE_CLIENT_REQUEST"
+        },
+        "TIMEOUT": {
+          "target": "TIMEOUT"
+        }
+      }
+    },
+    "START_QUIC_SERVER": {
+      "entry": [
+        {
+          "type": "get_from_file (variables quic_command) (quic_command)"
+        },
+        {
+          "type": "execute_command(quic_command)"
+        },
+        {
+          "type": "trigger (done)"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "SERVER_STARTED_ACK",
+          "actions": {
+            "type": "assign (ctrl) (ctrl)"
+          }
+        }
+      }
+    },
+    "INITIATE_CLIENT_REQUEST": {
+      "entry": [
+        {
+          "type": "get_from_file (variables quic_command) (quic_command)"
+        },
+        {
+          "type": "execute_command(quic_command)"
+        },
+        {
+          "type": "trigger (done)"
+        }
+      ],
+      "on": {
+        "DONE": {
+          "target": "END"
+        }
+      }
+    },
+    "TIMEOUT": {},
+    "SERVER_STARTED_ACK": {
+      "entry": [
+        {
+          "type": "set (ack) (msg)"
+        },
+        {
+          "type": "call (SEND_MSG ctrl msg) (event)"
+        },
+        {
+          "type": "trigger (event)"
+        }
+      ],
+      "on": {
+        "MSG_SENT": {
+          "target": "END"
+        }
+      }
+    },
+    "END": {}
+  }
+}
